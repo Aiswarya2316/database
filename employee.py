@@ -1,11 +1,11 @@
 import sqlite3
 
-con = sqlite3.connect("task3.db")#db connection
+con = sqlite3.connect("task3.db")
 
 try:
-            con.execute("create table employee(name text,age int,email text,sal int,pos text,exp int)")#create table
+    con.execute("create table employee(name text,age int,email text,sal int,pos text,exp int)")#create table
 except:
-            pass
+    pass
 
 
 while True:
@@ -23,19 +23,10 @@ while True:
 
 
             con.execute("insert into employee(name,age,email,sal,pos,exp) values(?,?,?,?,?,?)",(name,age,email,sal,pos,exp))#add value
-            con.commit()#save
-
-
-
+            con.commit()
 
         data=con.execute("select * from employee ")
         print(data)
-        # for i in data: ##print all
-        #     print(i)
-
-
-
-
 
         print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format("name","age","email","salary","position","experiance")) ##print in a table
         print('_'*80)
@@ -44,75 +35,66 @@ while True:
         print()
         
 
-
-
-
-
-                ##update name ,user input
-
-    elif ch==2:
-        # try:
-        #     con.execute("create table employee(age int,name text,email real)")#create table
-        # except:
-        #     pass
-
-
+    elif ch==2:  
         name=str(input("Enter old name : "))
-        new=str(input("Enter new name : "))
-        con.execute("update employee set name=? where name =?",(new,name))
-        con.commit()
-        data=con.execute("select * from employee")
-
-        print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format("name","age","email","salary","position","experiance")) ##print in a table
-        print('_'*80)
+        data=con.execute("select * from employee where name=? ",(name,))
+        found=False
         for i in data:
-            print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format(i[0],i[1],i[2],i[3],i[4],i[5])) 
-        print()
-        
+            found=True
+            new=str(input("Enter new name : "))
+            con.execute("update employee set name=? where name =?",(new,name))
+            con.commit()
+            data=con.execute("select * from employee")
+            print("Updated succesfully !")
+            
+        if not found:
+            print("Invalid Input !")
 
 
     elif ch ==3:
 
-
-
         name=str(input("Enter name : "))
-        con.execute("delete from employee where name =?",(name,))
-        con.commit()
-        data=con.execute("select * from employee")
-
-        print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format("name","age","email","salary","position","experiance")) ##print in a table
-        print('_'*80)
+        data=con.execute("select * from employee where name=? ",(name,))
+        found=False
         for i in data:
-            print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format(i[0],i[1],i[2],i[3],i[4],i[5])) 
-        print()
-        
+            found=True
+            con.execute("delete from employee where name =?",(name,))
+            con.commit()
+            data=con.execute("select * from employee")
+            print("Deleted duccessfully !")
 
-    
+        if not found:
+            print("Invalid Input !")
+ 
     elif ch ==4:
 
         data=con.execute("select * from employee")
 
         print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format("name","age","email","salary","position","experiance")) ##print in a table
-        print('_'*50)
+        print('_'*80)
         for i in data:
             print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format(i[0],i[1],i[2],i[3],i[4],i[5])) 
         print()
         
 
     elif ch ==5:
-
-
-        name=str(input("Enter name : "))
-
-        data=con.execute("select * from employee where name=? ",(name,))
-
-        print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format("name","age","email","salary","position","experiance")) ##print in a table
-        print('_'*80)
+        sname=str(input("Enter name : "))
+        data=con.execute("select * from employee where name=? ",(sname,))  
+        found = False
         for i in data:
+
+            print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format("name","age","email","salary","position","experiance")) ##print in a table
+            print('_'*80)
             print("{:<15}{:<5}{:<15}{:<15}{:<15}{:<15}".format(i[0],i[1],i[2],i[3],i[4],i[5])) 
-        print()
+            print()
+            found=True
+        if not found:
+            print("Invalid Input !")
         
 
     elif ch ==6:
         print("You had exited")
         break    
+
+    else:
+         ("invalid input")

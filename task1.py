@@ -14,9 +14,16 @@ except:
 #     print("{:<15}{:<15}{:<15}".format(i[0],i[1],i[2])) 
 # print()
 
-data=con.execute("select * from student order by name")
+# data=con.execute("select * from student order by name")
+# print("{:<15}{:<15}{:<15}".format("age","name","mark"))
+# print('_'*45)
+# for i in data:
+#     print("{:<15}{:<15}{:<15}".format(i[0],i[1],i[2])) 
+# print()
+
+
+data=con.execute("select name,max(mark)from student group by name")
 print("{:<15}{:<15}{:<15}".format("age","name","mark"))
 print('_'*45)
 for i in data:
-    print("{:<15}{:<15}{:<15}".format(i[0],i[1],i[2])) 
-print()
+    print(i)

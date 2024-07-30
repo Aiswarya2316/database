@@ -22,7 +22,7 @@ except:
 # print()
 
 
-data=con.execute("select name,max(mark)from student group by name")
+data=con.execute("select name,max(age)from student group by name")
 print("{:<15}{:<15}{:<15}".format("age","name","mark"))
 print('_'*45)
 for i in data:

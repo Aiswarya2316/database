@@ -123,6 +123,23 @@ def order_by(cursor):
     except Error as e:
         print(f"Error: {e}")
      
+def like(cursor):
+    try:
+        pattern = input('Enter pattern to search for in names (e.g., "John"): ')
+        cursor.execute('SELECT * FROM employe WHERE name LIKE %s ORDER BY age DESC', (f'%{pattern}%',))
+        data = cursor.fetchall()
+        print('{:<10}{:<20}{:<5}{:<30}{:<20}{:<10}'.format('ID', 'Name', 'Age', 'Email', 'Position', 'Salary'))
+        print('-' * 75)
+        if data:
+            for row in data:
+                print("{:<10}{:<20}{:<5}{:<30}{:<20}{:<10}".format(row[0], row[1], row[2], row[3], row[4], row[5]))
+        else:
+            print('No matching records found')
+    except Error as e:
+        print(f"Error: {e}")
+
+     
+
 
 def main():
     connection = create_connection()
@@ -131,7 +148,7 @@ def main():
         create_table(cursor)
 
         while True:
-            print('\n1. Add\n2. Update\n3. Delete\n4. Search\n5. View All\n6. Group By\n7. Order By\n8. Exit')
+            print('\n1. Add\n2. Update\n3. Delete\n4. Search\n5. View All\n6. Group By\n7. Order By\n8. Like\n9.Exit')
             choice = int(input('Enter your choice: '))
             if choice == 1:
                 add_employee(cursor, connection)
@@ -148,6 +165,8 @@ def main():
             elif choice == 7:
                 order_by(cursor)
             elif choice == 8:
+                like(cursor)    
+            elif choice == 9:
                 break
             else:
                 print('Invalid choice...')
